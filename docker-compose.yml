@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+
+  postgres:
+    image: postgres:12
+    environment:
+      - POSTGRES_DB=msjob
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+        
+  client:
+    container_name: client
+    build: D:\studies\esprit\2eme\microservice\Projet\GestionDesClients
+    ports:
+      - "8086:8086"
+    hostname: client
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka
+    depends_on:
+        - discovery
+        - postgres
+      
+
+  discovery:
+    build: D:\studies\esprit\2eme\microservice\Projet\EurekaServer
+    ports:
+      - "8761:8761"
+    image: "discovery-service"
+
+  apigateway:
+    container_name: apigateway
+    build: D:\studies\esprit\2eme\microservice\Projet\EurekaServer
+    ports:
+      - "8089:8089"
+    hostname: apigateway
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka
+    image: "apigateway"
+    depends_on:
+      - discovery
