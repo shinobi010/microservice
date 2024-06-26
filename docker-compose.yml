@@ -53,7 +53,21 @@ services:
       - discovery
     networks:
       - my-network
-      
+
+  voiture:
+    container_name: voiture
+    build: ./gestionVoitures
+    image: "voiture-service"
+    ports:
+      - "8070:8070"
+    hostname: localhost
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+    networks:
+      - my-network
+       
 networks:
   my-network:
     driver: bridge
