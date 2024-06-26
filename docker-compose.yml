@@ -16,7 +16,7 @@ services:
 
   client:
     container_name: client
-    build: D:\studies\esprit\2eme\microservice\Projet\GestionDesClients
+    build: ./GestionDesClients
     image: "client-service"
     ports:
       - "8086:8086"
@@ -33,12 +33,23 @@ services:
       - my-network
 
   discovery:
-    build: D:\studies\esprit\2eme\microservice\Projet\EurekaServer
+    build: ./EurekaServer
     ports:
       - "8761:8761"
     image: "discovery-service"
     networks:
       - my-network
+
+  vol:
+    hostname: localhost
+    build: 
+      context: ./GestionVols
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka
+    ports:
+      - "8082:8082"
+    depends_on:
+      - discovery
 
 networks:
   my-network:
