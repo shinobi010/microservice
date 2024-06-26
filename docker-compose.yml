@@ -11,6 +11,8 @@ services:
       - "5432:5432"
     networks:
       - my-network
+    volumes:
+      - db:/var/lib/pgadmin
 
   client:
     container_name: client
@@ -41,3 +43,6 @@ services:
 networks:
   my-network:
     driver: bridge
+
+volumes:
+  db:
