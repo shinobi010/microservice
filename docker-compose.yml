@@ -67,10 +67,39 @@ services:
       - discovery
     networks:
       - my-network
-       
+      
+  reservation:
+    container_name: reservation
+    build: ./GestionReservation
+    image: "reservation-service"
+    ports:
+      - "8085:8085"
+    hostname: localhost
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+    networks:
+      - my-network
+
+  offre:
+    container_name: offre
+    build: ./GestionOffre
+    image: "offre-service"
+    ports:
+      - "8087:8087"
+    hostname: localhost
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+    networks:
+      - my-network    
 networks:
   my-network:
     driver: bridge
 
 volumes:
   db:
+  db_s:
+  db_v:
