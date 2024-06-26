@@ -4,39 +4,59 @@ services:
   postgres:
     image: postgres:12
     environment:
-      - POSTGRES_DB=msjob
+      - POSTGRES_DB=gestionclient
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
     ports:
       - "5432:5432"
-        
+    networks:
+      - my-network
+    volumes:
+      - db:/var/lib/pgadmin
+
   client:
     container_name: client
-    build: D:\studies\esprit\2eme\microservice\Projet\GestionDesClients
+    build: ./GestionDesClients
+    image: "client-service"
     ports:
       - "8086:8086"
-    hostname: client
+    hostname: localhost
     environment:
       - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/gestionclient
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
     depends_on:
-        - discovery
-        - postgres
-      
+      - discovery
+      - postgres
+    networks:
+      - my-network
 
   discovery:
-    build: D:\studies\esprit\2eme\microservice\Projet\EurekaServer
+    build: ./EurekaServer
     ports:
       - "8761:8761"
     image: "discovery-service"
+    networks:
+      - my-network
 
-  apigateway:
-    container_name: apigateway
-    build: D:\studies\esprit\2eme\microservice\Projet\EurekaServer
+  vol:
+    container_name: vol
+    build: ./GestionVols
+    image: "vol-service"
     ports:
-      - "8089:8089"
-    hostname: apigateway
+      - "8082:8082"
+    hostname: localhost
     environment:
       - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka
-    image: "apigateway"
     depends_on:
       - discovery
+    networks:
+      - my-network
+      
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  db:

@@ -14,6 +14,15 @@ public class SpringCloudConfig {
                 .route(r -> r.path("/client/**")
                         .uri("lb://gestionclient-service")
                         .id("marwen"))
+                .route(r -> r.path("/airport/**")
+                        .uri("lb://GestionVols")
+                        .id("oumaima"))
+                .route(r -> r.path("/plane/**")
+                        .uri("lb://GestionVols")
+                        .id("oumaima"))
+                .route(r -> r.path("/flight/**")
+                        .uri("lb://GestionVols")
+                        .id("oumaima"))
                 .build();
     }
 
