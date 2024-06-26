@@ -1,0 +1,60 @@
+version: '3'
+services:
+  app:
+    container_name: docker-node-mongo
+    restart: always
+    build: .
+    environment:
+      - MONGO_URI=mongodb+srv://ghas:ghas@agence.w0ioqef.mongodb.net/?retryWrites=true&w=majority&appName=Agence
+    ports:
+      - '80:3000'
+    external_links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+   
+
+
+
+
+
+
+
+
+
+# version: '3.4'
+
+# services: 
+#   nodeapi_partenaire: 
+#     container_name: nodeapi_partenaire
+#     build: .
+#     environment:
+#       - MONGO_URI=mongodb://localhost:27017/PartenaireDBex
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - .:/usr/src/app
+#       - /usr/src/app/node_modules
+#   mongodb:
+#     container_name: mongo
+#     image: mongo:latest
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - ./data:/data/db
+    
+
+
+#     # container_name: nodejs_mongo_docker 
+#     # ports: 
+#     #   - "3000:3000" 
+#     # volumes: 
+#     #   - .:/usr/src/app 
+#     # depends_on: 
+#     #   - mongo 
+#     # links: 
+#     #   - mongo 
+#     # environment: 
+#     #   - MONGO_URL=mongodb://mongo:27017/partenaires
+
