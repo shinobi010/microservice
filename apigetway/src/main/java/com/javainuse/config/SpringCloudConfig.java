@@ -23,6 +23,7 @@ public class SpringCloudConfig {
                 .route(r -> r.path("/flight/**")
                         .uri("lb://GestionVols")
                         .id("oumaima"))
+
                 .route(r -> r.path("/offre/**")
                         .uri("lb://offre-service")
                         .id("melek"))
@@ -34,7 +35,10 @@ public class SpringCloudConfig {
                         .id("eya"))
                 .route(r -> r.path("/reservation/**")
                         .uri("lb://reservation-service")
-                        .id("hl"))
+                        .id("eya"))
+                .route(r -> r.path("/Voiture/**")
+                        .uri("lb://gestionVoitures")
+                        .id("hadhemi"))
                 .build();
     }
 
